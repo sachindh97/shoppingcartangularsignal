@@ -1,0 +1,40 @@
+<div class="container my-5 d-flex justify-content-center">
+  <div class="w-100" style="max-width: 500px;">
+    <h2 class="mb-4 text-center">🛒 Cart</h2>
+
+    @if (cartService.cart().length > 0) {
+      <div class="border rounded p-3 bg-light">
+        @for (item of cartService.cart(); track item.id) {
+          <div class="d-flex justify-content-between align-items-center border-bottom py-2">
+            <div>
+              <strong>{{ item.name }}</strong><br />
+              {{ item.price |  currency:'INR' }} × {{ item.qty }} = {{ item.price  * item.qty |  currency:'INR' }}
+            </div>
+
+            <div>
+              <button class="btn btn-sm btn-outline-secondary me-1" (click)="decrease(item.id)">➖</button>
+              <button class="btn btn-sm btn-outline-secondary me-1" (click)="increase(item.id)">➕</button>
+              <button class="btn btn-sm btn-outline-danger" (click)="remove(item.id)">❌</button>
+            </div>
+          </div>
+        }
+
+        <div class="text-end mt-3">
+          <h5>Total: {{ cartService.totalPrice() |  currency:'INR' }}</h5>
+        </div>
+      </div>
+
+      <div class="text-center mt-3">
+        <button class="btn btn-primary" (click)="back()">⬅️ Back to Products</button>
+        <button class="btn btn-success ms-2">Checkout</button>
+      </div>
+    }
+
+    @if (cartService.cart().length === 0) {
+      <div class="text-center mt-5 border rounded p-4 bg-light">
+        <p class="fs-5 text-muted">🫥 Cart is empty</p>
+        <button class="btn btn-primary" (click)="back()">⬅️ Back to Products</button>
+      </div>
+    }
+  </div>
+</div>
